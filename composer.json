@@ -1,0 +1,37 @@
+{
+  "name": "jamm-pay/php-sdk",
+  "description": "Jamm PHP SDK",
+  "keywords": [
+    "jamm",
+    "jamm-pay",
+    "payment processing",
+    "api"
+  ],
+  "homepage": "https://jamm-pay.jp",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jamm and contributors",
+      "homepage": "https://github.com/jamm-pay/php-sdk"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Jamm\\": "lib/",
+      "Api\\": "lib/proto/Api/",
+      "Common\\": "lib/proto/Common/",
+      "OpenAPI\\Client\\": "lib/openapi/"
+    },
+    "classmap": [
+      "lib/Jamm.php"
+    ]
+  },
+  "require": {
+    "php": ">=8.2.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "guzzlehttp/guzzle": "^7.3",
+    "guzzlehttp/psr7": "^1.7 || ^2.0"
+  }
+}

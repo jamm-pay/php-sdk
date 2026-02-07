@@ -1,0 +1,135 @@
+<?php
+
+namespace Jamm;
+
+use OpenAPI\Client\Configuration;
+use GuzzleHttp\Client as GuzzleClient;
+use Jamm\Exception\ConfigException;
+
+final class Config
+{
+    public const ENV_LOCAL = 'local';
+    public const ENV_STAGING = 'staging';
+    public const ENV_PROD  = 'prod';
+
+    /**
+     * SDK version, updated through build pipeline.
+     */
+    public const VERSION = '0.0.0';
+
+    private static ?self $instance = null;
+
+    /**
+     * Cached API client context to avoid re-instantiating Guzzle.
+     */
+    private ?ApiClientContext $apiClientContext = null;
+
+    private function __construct(
+        public readonly string $clientId,
+        public readonly string $clientSecret,
+        public readonly string $environment,
+        public readonly string $apiBaseUrl,
+        public readonly string $oauth2BaseUrl,
+    ) {}
+
+    /**
+     * Initializes the Singleton instance.
+     */
+    public static function init(
+        string $clientId,
+        string $clientSecret,
+        string $environment = self::ENV_PROD,
+    ): self {
+        // Validation: Ensure we don't have empty credentials
+        if (empty($clientId) || empty($clientSecret)) {
+            throw new ConfigException('Client ID and Secret are required.');
+        }
+
+        self::$instance = new self(
+            clientId: $clientId,
+            clientSecret: $clientSecret,
+            environment: $environment,
+            apiBaseUrl: self::getApiUrl($environment),
+            oauth2BaseUrl: self::getOAuth2Url($environment),
+        );
+
+        return self::$instance;
+    }
+
+    /**
+     * Retrieves the initialized instance.
+     */
+    public static function get(): self
+    {
+        return self::$instance ?? throw new ConfigException('Jamm SDK not initialized. Call Config::init() first.');
+    }
+
+    public static function reset(): void
+    {
+        self::$instance = null;
+    }
+
+    public function verifySSL(): bool
+    {
+        return $this->environment !== self::ENV_LOCAL;
+    }
+
+    /**
+     * Returns the API context containing Configuration and the HTTP Client.
+     * Note: If you implement token refreshing, you may want to pass the token
+     * dynamically rather than caching the whole client here.
+     */
+    public function apiClient(): ApiClientContext
+    {
+        if ($this->apiClientContext !== null) {
+            return $this->apiClientContext;
+        }
+
+        $token = OAuth::getAccessToken();
+
+        $conf = new Configuration();
+        $conf->setHost($this->apiBaseUrl);
+
+        $http = new GuzzleClient([
+            'headers' => [
+                'X-SDK-Version' => 'php:' . self::VERSION,
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type'  => 'application/json',
+                'Accept'        => 'application/json',
+            ],
+            'verify'  => $this->verifySSL(),
+            'timeout' => 30.0, // Best practice: always set a timeout
+        ]);
+
+        return $this->apiClientContext = new ApiClientContext($conf, $http);
+    }
+
+    private static function getApiUrl(string $environment): string
+    {
+        return match ($environment) {
+            self::ENV_PROD  => 'https://api.jamm-pay.jp',
+            self::ENV_LOCAL => 'https://api.jamm.test',
+            default         => "https://api.{$environment}.jamm-pay.jp",
+        };
+    }
+
+    private static function getOAuth2Url(string $environment): string
+    {
+        return match ($environment) {
+            self::ENV_PROD  => 'https://merchant-identity.jamm-pay.jp',
+            self::ENV_LOCAL => 'https://merchant-identity.develop.jamm-pay.jp',
+            default         => "https://merchant-identity.{$environment}.jamm-pay.jp",
+        };
+    }
+}
+
+/**
+ * Data class to hold the OpenAPI configuration and the Guzzle client.
+ */
+final class ApiClientContext
+{
+    public function __construct(
+        public readonly Configuration $conf,
+        public readonly GuzzleClient $http,
+    ) {}
+}
