@@ -1,6 +1,6 @@
 <?php
 /**
- * V1GetContractResponse
+ * V1RefundResponse
  *
  * PHP version 8.1
  *
@@ -32,15 +32,16 @@ use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * V1GetContractResponse Class Doc Comment
+ * V1RefundResponse Class Doc Comment
  *
  * @category Class
+ * @description Response message for the Refund endpoint. A successful response means the refund request was accepted and is being processed. The final result is delivered via webhook.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class V1RefundResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +50,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'v1GetContractResponse';
+    protected static $openAPIModelName = 'v1RefundResponse';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -57,8 +58,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'customer' => '\OpenAPI\Client\Model\V1MerchantCustomer',
-        'contract' => '\OpenAPI\Client\Model\V1Contract'
+        'charge_id' => 'string',
+        'refund_id' => 'string'
     ];
 
     /**
@@ -69,8 +70,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'customer' => null,
-        'contract' => null
+        'charge_id' => null,
+        'refund_id' => null
     ];
 
     /**
@@ -79,8 +80,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'customer' => false,
-        'contract' => false
+        'charge_id' => false,
+        'refund_id' => false
     ];
 
     /**
@@ -169,8 +170,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'customer' => 'customer',
-        'contract' => 'contract'
+        'charge_id' => 'chargeId',
+        'refund_id' => 'refundId'
     ];
 
     /**
@@ -179,8 +180,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'customer' => 'setCustomer',
-        'contract' => 'setContract'
+        'charge_id' => 'setChargeId',
+        'refund_id' => 'setRefundId'
     ];
 
     /**
@@ -189,8 +190,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'customer' => 'getCustomer',
-        'contract' => 'getContract'
+        'charge_id' => 'getChargeId',
+        'refund_id' => 'getRefundId'
     ];
 
     /**
@@ -250,8 +251,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('customer', $data ?? [], null);
-        $this->setIfExists('contract', $data ?? [], null);
+        $this->setIfExists('charge_id', $data ?? [], null);
+        $this->setIfExists('refund_id', $data ?? [], null);
     }
 
     /**
@@ -297,55 +298,55 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets customer
+     * Gets charge_id
      *
-     * @return \OpenAPI\Client\Model\V1MerchantCustomer|null
+     * @return string|null
      */
-    public function getCustomer()
+    public function getChargeId()
     {
-        return $this->container['customer'];
+        return $this->container['charge_id'];
     }
 
     /**
-     * Sets customer
+     * Sets charge_id
      *
-     * @param \OpenAPI\Client\Model\V1MerchantCustomer|null $customer customer
+     * @param string|null $charge_id The charge ID that the refund was requested for.
      *
      * @return self
      */
-    public function setCustomer($customer)
+    public function setChargeId($charge_id)
     {
-        if (is_null($customer)) {
-            throw new \InvalidArgumentException('non-nullable customer cannot be null');
+        if (is_null($charge_id)) {
+            throw new \InvalidArgumentException('non-nullable charge_id cannot be null');
         }
-        $this->container['customer'] = $customer;
+        $this->container['charge_id'] = $charge_id;
 
         return $this;
     }
 
     /**
-     * Gets contract
+     * Gets refund_id
      *
-     * @return \OpenAPI\Client\Model\V1Contract|null
+     * @return string|null
      */
-    public function getContract()
+    public function getRefundId()
     {
-        return $this->container['contract'];
+        return $this->container['refund_id'];
     }
 
     /**
-     * Sets contract
+     * Sets refund_id
      *
-     * @param \OpenAPI\Client\Model\V1Contract|null $contract contract
+     * @param string|null $refund_id The external refund ID for tracking this refund request.
      *
      * @return self
      */
-    public function setContract($contract)
+    public function setRefundId($refund_id)
     {
-        if (is_null($contract)) {
-            throw new \InvalidArgumentException('non-nullable contract cannot be null');
+        if (is_null($refund_id)) {
+            throw new \InvalidArgumentException('non-nullable refund_id cannot be null');
         }
-        $this->container['contract'] = $contract;
+        $this->container['refund_id'] = $refund_id;
 
         return $this;
     }

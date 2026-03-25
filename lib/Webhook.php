@@ -27,9 +27,10 @@ final class Webhook
         switch ($eventType) {
             case V1EventType::EVENT_TYPE_CHARGE_CREATED:
             case V1EventType::EVENT_TYPE_CHARGE_UPDATED:
-            case V1EventType::EVENT_TYPE_CHARGE_CANCEL:
             case V1EventType::EVENT_TYPE_CHARGE_SUCCESS:
             case V1EventType::EVENT_TYPE_CHARGE_FAIL:
+            case V1EventType::EVENT_TYPE_REFUND_SUCCEEDED:
+            case V1EventType::EVENT_TYPE_REFUND_FAILED:
                 $out->setContent(new V1ChargeMessage(is_array($content) ? $content : []));
                 return $out;
 

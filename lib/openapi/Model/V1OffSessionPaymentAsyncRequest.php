@@ -1,6 +1,6 @@
 <?php
 /**
- * V1GetContractResponse
+ * V1OffSessionPaymentAsyncRequest
  *
  * PHP version 8.1
  *
@@ -32,15 +32,16 @@ use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * V1GetContractResponse Class Doc Comment
+ * V1OffSessionPaymentAsyncRequest Class Doc Comment
  *
  * @category Class
+ * @description This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class V1OffSessionPaymentAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +50,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'v1GetContractResponse';
+    protected static $openAPIModelName = 'v1OffSessionPaymentAsyncRequest';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -57,8 +58,8 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'customer' => '\OpenAPI\Client\Model\V1MerchantCustomer',
-        'contract' => '\OpenAPI\Client\Model\V1Contract'
+        'customer' => 'string',
+        'charge' => '\OpenAPI\Client\Model\V1InitialCharge'
     ];
 
     /**
@@ -70,7 +71,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     protected static $openAPIFormats = [
         'customer' => null,
-        'contract' => null
+        'charge' => null
     ];
 
     /**
@@ -80,7 +81,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     protected static array $openAPINullables = [
         'customer' => false,
-        'contract' => false
+        'charge' => false
     ];
 
     /**
@@ -170,7 +171,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     protected static $attributeMap = [
         'customer' => 'customer',
-        'contract' => 'contract'
+        'charge' => 'charge'
     ];
 
     /**
@@ -180,7 +181,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     protected static $setters = [
         'customer' => 'setCustomer',
-        'contract' => 'setContract'
+        'charge' => 'setCharge'
     ];
 
     /**
@@ -190,7 +191,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     protected static $getters = [
         'customer' => 'getCustomer',
-        'contract' => 'getContract'
+        'charge' => 'getCharge'
     ];
 
     /**
@@ -251,7 +252,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
     public function __construct(?array $data = null)
     {
         $this->setIfExists('customer', $data ?? [], null);
-        $this->setIfExists('contract', $data ?? [], null);
+        $this->setIfExists('charge', $data ?? [], null);
     }
 
     /**
@@ -299,7 +300,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Gets customer
      *
-     * @return \OpenAPI\Client\Model\V1MerchantCustomer|null
+     * @return string|null
      */
     public function getCustomer()
     {
@@ -309,7 +310,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets customer
      *
-     * @param \OpenAPI\Client\Model\V1MerchantCustomer|null $customer customer
+     * @param string|null $customer customer
      *
      * @return self
      */
@@ -324,28 +325,28 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets contract
+     * Gets charge
      *
-     * @return \OpenAPI\Client\Model\V1Contract|null
+     * @return \OpenAPI\Client\Model\V1InitialCharge|null
      */
-    public function getContract()
+    public function getCharge()
     {
-        return $this->container['contract'];
+        return $this->container['charge'];
     }
 
     /**
-     * Sets contract
+     * Sets charge
      *
-     * @param \OpenAPI\Client\Model\V1Contract|null $contract contract
+     * @param \OpenAPI\Client\Model\V1InitialCharge|null $charge charge
      *
      * @return self
      */
-    public function setContract($contract)
+    public function setCharge($charge)
     {
-        if (is_null($contract)) {
-            throw new \InvalidArgumentException('non-nullable contract cannot be null');
+        if (is_null($charge)) {
+            throw new \InvalidArgumentException('non-nullable charge cannot be null');
         }
-        $this->container['contract'] = $contract;
+        $this->container['charge'] = $charge;
 
         return $this;
     }

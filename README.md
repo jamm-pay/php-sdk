@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/jamm-pay/node-sdk">
+  <a href="https://github.com/jamm-pay/php-sdk">
     <img src="https://assets.jamm-pay.jp/brand/jamm_logo.png" alt="logo" width="120" height="120">
   </a>
   <h3 align="center">Jamm PHP SDK</h3>
@@ -15,3 +15,9 @@
 Visit our docs for more information.
 
 <https://docs.jamm-pay.jp>
+
+## Install
+
+```bash
+composer require jamm-pay/php-sdk
+```

@@ -1,6 +1,6 @@
 <?php
 /**
- * V1GetContractResponse
+ * V1RefundRequest
  *
  * PHP version 8.1
  *
@@ -32,15 +32,16 @@ use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * V1GetContractResponse Class Doc Comment
+ * V1RefundRequest Class Doc Comment
  *
  * @category Class
+ * @description Request message for refunding a charge. The refund is always processed asynchronously. The final result is delivered via webhook (&#x60;refund_succeeded&#x60;).
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class V1RefundRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +50,7 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      *
      * @var string
      */
-    protected static $openAPIModelName = 'v1GetContractResponse';
+    protected static $openAPIModelName = 'v1RefundRequest';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -57,8 +58,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $openAPITypes = [
-        'customer' => '\OpenAPI\Client\Model\V1MerchantCustomer',
-        'contract' => '\OpenAPI\Client\Model\V1Contract'
+        'charge_id' => 'string',
+        'amount' => 'int',
+        'cancel_only' => 'bool'
     ];
 
     /**
@@ -69,8 +71,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'customer' => null,
-        'contract' => null
+        'charge_id' => null,
+        'amount' => 'int32',
+        'cancel_only' => null
     ];
 
     /**
@@ -79,8 +82,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'customer' => false,
-        'contract' => false
+        'charge_id' => false,
+        'amount' => false,
+        'cancel_only' => false
     ];
 
     /**
@@ -169,8 +173,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $attributeMap = [
-        'customer' => 'customer',
-        'contract' => 'contract'
+        'charge_id' => 'chargeId',
+        'amount' => 'amount',
+        'cancel_only' => 'cancelOnly'
     ];
 
     /**
@@ -179,8 +184,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $setters = [
-        'customer' => 'setCustomer',
-        'contract' => 'setContract'
+        'charge_id' => 'setChargeId',
+        'amount' => 'setAmount',
+        'cancel_only' => 'setCancelOnly'
     ];
 
     /**
@@ -189,8 +195,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      * @var string[]
      */
     protected static $getters = [
-        'customer' => 'getCustomer',
-        'contract' => 'getContract'
+        'charge_id' => 'getChargeId',
+        'amount' => 'getAmount',
+        'cancel_only' => 'getCancelOnly'
     ];
 
     /**
@@ -250,8 +257,9 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('customer', $data ?? [], null);
-        $this->setIfExists('contract', $data ?? [], null);
+        $this->setIfExists('charge_id', $data ?? [], null);
+        $this->setIfExists('amount', $data ?? [], null);
+        $this->setIfExists('cancel_only', $data ?? [], null);
     }
 
     /**
@@ -297,55 +305,82 @@ class V1GetContractResponse implements ModelInterface, ArrayAccess, \JsonSeriali
 
 
     /**
-     * Gets customer
+     * Gets charge_id
      *
-     * @return \OpenAPI\Client\Model\V1MerchantCustomer|null
+     * @return string|null
      */
-    public function getCustomer()
+    public function getChargeId()
     {
-        return $this->container['customer'];
+        return $this->container['charge_id'];
     }
 
     /**
-     * Sets customer
+     * Sets charge_id
      *
-     * @param \OpenAPI\Client\Model\V1MerchantCustomer|null $customer customer
+     * @param string|null $charge_id The charge ID to refund.  返金する決済のID。  @gotags: validate:\"required\"
      *
      * @return self
      */
-    public function setCustomer($customer)
+    public function setChargeId($charge_id)
     {
-        if (is_null($customer)) {
-            throw new \InvalidArgumentException('non-nullable customer cannot be null');
+        if (is_null($charge_id)) {
+            throw new \InvalidArgumentException('non-nullable charge_id cannot be null');
         }
-        $this->container['customer'] = $customer;
+        $this->container['charge_id'] = $charge_id;
 
         return $this;
     }
 
     /**
-     * Gets contract
+     * Gets amount
      *
-     * @return \OpenAPI\Client\Model\V1Contract|null
+     * @return int|null
      */
-    public function getContract()
+    public function getAmount()
     {
-        return $this->container['contract'];
+        return $this->container['amount'];
     }
 
     /**
-     * Sets contract
+     * Sets amount
      *
-     * @param \OpenAPI\Client\Model\V1Contract|null $contract contract
+     * @param int|null $amount Optional refund amount in JPY. If omitted, the full refundable amount is used.  返金金額（日本円）。 省略した場合、全額返金となります。
      *
      * @return self
      */
-    public function setContract($contract)
+    public function setAmount($amount)
     {
-        if (is_null($contract)) {
-            throw new \InvalidArgumentException('non-nullable contract cannot be null');
+        if (is_null($amount)) {
+            throw new \InvalidArgumentException('non-nullable amount cannot be null');
         }
-        $this->container['contract'] = $contract;
+        $this->container['amount'] = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets cancel_only
+     *
+     * @return bool|null
+     */
+    public function getCancelOnly()
+    {
+        return $this->container['cancel_only'];
+    }
+
+    /**
+     * Sets cancel_only
+     *
+     * @param bool|null $cancel_only When true, only attempts cancellation without falling back to bank transfer refund. Defaults to false (fallback enabled).  trueの場合、キャンセルのみを試行し、銀行振込返金への フォールバックを行いません。デフォルトはfalse（フォールバック有効）。
+     *
+     * @return self
+     */
+    public function setCancelOnly($cancel_only)
+    {
+        if (is_null($cancel_only)) {
+            throw new \InvalidArgumentException('non-nullable cancel_only cannot be null');
+        }
+        $this->container['cancel_only'] = $cancel_only;
 
         return $this;
     }

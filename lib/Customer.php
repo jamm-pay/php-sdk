@@ -13,47 +13,70 @@ use OpenAPI\Client\Model\V1UpdateCustomerResponse;
 class Customer
 {
     /**
-     * Get or create the OpenAPI client
+     * Get or create the OpenAPI client.
+     * In platform mode, pass a merchant ID to call the API on behalf of that merchant.
+     *
+     * @param string|null $merchant Optional merchant ID for platform mode (format: mer-*)
      * @return CustomerApi
-     * @throws ApiException
      */
-    private static function api(): CustomerApi
+    private static function api(?string $merchant = null): CustomerApi
     {
-        $client = Config::get()->apiClient();
+        $client = Config::get()->apiClient($merchant);
 
         return new CustomerApi($client->http, $client->conf);
     }
 
     /**
-     * Create a new customer
+     * Create a new customer.
      *
-     * @param Request\Buyer $buyer
+     * @example Merchant mode
+     * ```php
+     * $input = new \Jamm\Request\CreateCustomerInput($buyer);
+     * $jamm->customer->create($input);
+     * ```
+     *
+     * @example Platform mode
+     * ```php
+     * $input = new \Jamm\Request\CreateCustomerInput($buyer, merchant: 'mer-merchant-123');
+     * $jamm->customer->create($input);
+     * ```
+     *
+     * @param Request\CreateCustomerInput $input
      * @return V1CreateCustomerResponse
-     * @throws ApiException
      */
-    public function create(Request\Buyer $buyer): V1CreateCustomerResponse
+    public function create(Request\CreateCustomerInput $input): V1CreateCustomerResponse
     {
         $request = new V1CreateCustomerRequest();
-        $request->setBuyer($buyer);
+        $request->setBuyer($input->buyer);
 
         try {
-            return self::api()->create($request);
+            return self::api($input->merchant)->create($request);
         } catch (\Exception $e) {
             throw new \Jamm\Exception\ApiException("Error creating customer: {$e->getMessage()}");
         }
     }
 
     /**
-     * Get a customer
+     * Get a customer.
+     *
+     * @example Merchant mode
+     * ```php
+     * $jamm->customer->get('cus-123');
+     * ```
+     *
+     * @example Platform mode
+     * ```php
+     * $jamm->customer->get('cus-123', merchant: 'mer-merchant-123');
+     * ```
      *
      * @param string $customerId
+     * @param string|null $merchant Optional merchant ID for platform mode
      * @return V1Customer|null
-     * @throws ApiException
      */
-    public function get(string $customerId): ?V1Customer
+    public function get(string $customerId, ?string $merchant = null): ?V1Customer
     {
         try {
-            $got = self::api()->get($customerId);
+            $got = self::api($merchant)->get($customerId);
 
             return $got->getCustomer();
         } catch (\Exception $e) {
@@ -62,33 +85,53 @@ class Customer
     }
 
     /**
-     * Update a customer
+     * Update a customer.
      *
-     * @param string $customerId
-     * @param Request\UpdateCustomerRequest $params
+     * @example Merchant mode
+     * ```php
+     * $input = new \Jamm\Request\UpdateCustomerInput('cus-123', $params);
+     * $jamm->customer->update($input);
+     * ```
+     *
+     * @example Platform mode
+     * ```php
+     * $input = new \Jamm\Request\UpdateCustomerInput('cus-123', $params, merchant: 'mer-merchant-123');
+     * $jamm->customer->update($input);
+     * ```
+     *
+     * @param Request\UpdateCustomerInput $input
      * @return V1UpdateCustomerResponse
-     * @throws ApiException
      */
-    public function update(string $customerId, Request\UpdateCustomerRequest $params): V1UpdateCustomerResponse
+    public function update(Request\UpdateCustomerInput $input): V1UpdateCustomerResponse
     {
         try {
-            return self::api()->update($customerId, $params);
+            return self::api($input->merchant)->update($input->customerId, $input->params);
         } catch (\Exception $e) {
             throw new \Jamm\Exception\ApiException("Error updating customer: {$e->getMessage()}");
         }
     }
 
     /**
-     * Delete a customer
+     * Delete a customer.
+     *
+     * @example Merchant mode
+     * ```php
+     * $jamm->customer->delete('cus-123');
+     * ```
+     *
+     * @example Platform mode
+     * ```php
+     * $jamm->customer->delete('cus-123', merchant: 'mer-merchant-123');
+     * ```
      *
      * @param string $customerId
+     * @param string|null $merchant Optional merchant ID for platform mode
      * @return V1DeleteCustomerResponse
-     * @throws ApiException
      */
-    public function delete(string $customerId): V1DeleteCustomerResponse
+    public function delete(string $customerId, ?string $merchant = null): V1DeleteCustomerResponse
     {
         try {
-            return self::api()->delete($customerId);
+            return self::api($merchant)->delete($customerId);
         } catch (\Exception $e) {
             throw new \Jamm\Exception\ApiException("Error deleting customer: {$e->getMessage()}");
         }
