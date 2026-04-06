@@ -1,6 +1,6 @@
 <?php
 /**
- * V1InitialCharge
+ * V1ChargeError
  *
  * PHP version 8.1
  *
@@ -32,16 +32,16 @@ use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * V1InitialCharge Class Doc Comment
+ * V1ChargeError Class Doc Comment
  *
  * @category Class
- * @description InitialCharge is a charge object without id. Intended to be used when creating a contract with initial charge.
+ * @description Contains error details for a failed charge.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
+class V1ChargeError implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @var string
      */
-    protected static $openAPIModelName = 'v1InitialCharge';
+    protected static $openAPIModelName = 'v1ChargeError';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -58,11 +58,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $openAPITypes = [
-        'price' => 'int',
-        'description' => 'string',
-        'metadata' => 'array<string,string>',
-        'platform_fee' => 'int',
-        'expires_at' => '\DateTime'
+        'code' => 'string',
+        'message' => 'string'
     ];
 
     /**
@@ -73,11 +70,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'price' => 'int32',
-        'description' => null,
-        'metadata' => null,
-        'platform_fee' => 'int32',
-        'expires_at' => 'date-time'
+        'code' => null,
+        'message' => null
     ];
 
     /**
@@ -86,11 +80,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'price' => false,
-        'description' => false,
-        'metadata' => false,
-        'platform_fee' => false,
-        'expires_at' => false
+        'code' => false,
+        'message' => false
     ];
 
     /**
@@ -179,11 +170,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'price' => 'price',
-        'description' => 'description',
-        'metadata' => 'metadata',
-        'platform_fee' => 'platformFee',
-        'expires_at' => 'expiresAt'
+        'code' => 'code',
+        'message' => 'message'
     ];
 
     /**
@@ -192,11 +180,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'price' => 'setPrice',
-        'description' => 'setDescription',
-        'metadata' => 'setMetadata',
-        'platform_fee' => 'setPlatformFee',
-        'expires_at' => 'setExpiresAt'
+        'code' => 'setCode',
+        'message' => 'setMessage'
     ];
 
     /**
@@ -205,11 +190,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'price' => 'getPrice',
-        'description' => 'getDescription',
-        'metadata' => 'getMetadata',
-        'platform_fee' => 'getPlatformFee',
-        'expires_at' => 'getExpiresAt'
+        'code' => 'getCode',
+        'message' => 'getMessage'
     ];
 
     /**
@@ -269,11 +251,8 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('price', $data ?? [], null);
-        $this->setIfExists('description', $data ?? [], null);
-        $this->setIfExists('metadata', $data ?? [], null);
-        $this->setIfExists('platform_fee', $data ?? [], null);
-        $this->setIfExists('expires_at', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
     }
 
     /**
@@ -319,136 +298,55 @@ class V1InitialCharge implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets price
-     *
-     * @return int|null
-     */
-    public function getPrice()
-    {
-        return $this->container['price'];
-    }
-
-    /**
-     * Sets price
-     *
-     * @param int|null $price Amount of the charge in Japanese Yen. The amount must be the total price of the product/service including tax.  決済金額。日本円で指定してください。 金額は商品/サービスの合計金額 (税込) を指定してください。  @gotags: validate:\"gte=1,lte=500000\"
-     *
-     * @return self
-     */
-    public function setPrice($price)
-    {
-        if (is_null($price)) {
-            throw new \InvalidArgumentException('non-nullable price cannot be null');
-        }
-        $this->container['price'] = $price;
-
-        return $this;
-    }
-
-    /**
-     * Gets description
+     * Gets code
      *
      * @return string|null
      */
-    public function getDescription()
+    public function getCode()
     {
-        return $this->container['description'];
+        return $this->container['code'];
     }
 
     /**
-     * Sets description
+     * Sets code
      *
-     * @param string|null $description Description is an arbitrary string for merchant to track the charge. This information is displayed on Merchant Dashboard.  決済の説明。ショップが決済を追跡するための任意の文字列です。  @gotags: validate:\"required,max=1024\"
+     * @param string|null $code Jamm defined error code (e.g. \"ERROR_TYPE_PAYMENT_CHARGE_OVER_LIMIT\").
      *
      * @return self
      */
-    public function setDescription($description)
+    public function setCode($code)
     {
-        if (is_null($description)) {
-            throw new \InvalidArgumentException('non-nullable description cannot be null');
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
         }
-        $this->container['description'] = $description;
+        $this->container['code'] = $code;
 
         return $this;
     }
 
     /**
-     * Gets metadata
+     * Gets message
      *
-     * @return array<string,string>|null
+     * @return string|null
      */
-    public function getMetadata()
+    public function getMessage()
     {
-        return $this->container['metadata'];
+        return $this->container['message'];
     }
 
     /**
-     * Sets metadata
+     * Sets message
      *
-     * @param array<string,string>|null $metadata Arbitrary key-value additional information about the charge. You can see this information in our merchant dashboard.  Chargeに関する任意のキーと値の追加情報。 加盟店ダッシュボードで確認できます。
+     * @param string|null $message Human readable error message.
      *
      * @return self
      */
-    public function setMetadata($metadata)
+    public function setMessage($message)
     {
-        if (is_null($metadata)) {
-            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
-        $this->container['metadata'] = $metadata;
-
-        return $this;
-    }
-
-    /**
-     * Gets platform_fee
-     *
-     * @return int|null
-     */
-    public function getPlatformFee()
-    {
-        return $this->container['platform_fee'];
-    }
-
-    /**
-     * Sets platform_fee
-     *
-     * @param int|null $platform_fee Fee charged by the platform (in JPY). Must be >= the Jamm fee for the merchant. Only meaningful when the caller is a platform. Ignored for direct merchant calls.  プラットフォームが徴収する手数料（日本円）。加盟店のJamm手数料以上である必要があります。
-     *
-     * @return self
-     */
-    public function setPlatformFee($platform_fee)
-    {
-        if (is_null($platform_fee)) {
-            throw new \InvalidArgumentException('non-nullable platform_fee cannot be null');
-        }
-        $this->container['platform_fee'] = $platform_fee;
-
-        return $this;
-    }
-
-    /**
-     * Gets expires_at
-     *
-     * @return \DateTime|null
-     */
-    public function getExpiresAt()
-    {
-        return $this->container['expires_at'];
-    }
-
-    /**
-     * Sets expires_at
-     *
-     * @param \DateTime|null $expires_at Merchant can optionally set the expiry date for the payment. Defaults to 90 minutes if not specified.  決済の有効期限。未指定の場合は90分後に自動失効します。
-     *
-     * @return self
-     */
-    public function setExpiresAt($expires_at)
-    {
-        if (is_null($expires_at)) {
-            throw new \InvalidArgumentException('non-nullable expires_at cannot be null');
-        }
-        $this->container['expires_at'] = $expires_at;
+        $this->container['message'] = $message;
 
         return $this;
     }

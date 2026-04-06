@@ -73,7 +73,8 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         'created_at' => '\DateTime',
         'updated_at' => '\DateTime',
         'processed_at' => '\DateTime',
-        'charge_status' => '\OpenAPI\Client\Model\V1ChargeStatus'
+        'charge_status' => '\OpenAPI\Client\Model\V1ChargeStatus',
+        'error' => '\OpenAPI\Client\Model\V1ChargeError'
     ];
 
     /**
@@ -99,7 +100,8 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         'created_at' => 'date-time',
         'updated_at' => 'date-time',
         'processed_at' => 'date-time',
-        'charge_status' => null
+        'charge_status' => null,
+        'error' => null
     ];
 
     /**
@@ -123,7 +125,8 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         'created_at' => false,
         'updated_at' => false,
         'processed_at' => false,
-        'charge_status' => false
+        'charge_status' => false,
+        'error' => false
     ];
 
     /**
@@ -227,7 +230,8 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         'created_at' => 'createdAt',
         'updated_at' => 'updatedAt',
         'processed_at' => 'processedAt',
-        'charge_status' => 'chargeStatus'
+        'charge_status' => 'chargeStatus',
+        'error' => 'error'
     ];
 
     /**
@@ -251,7 +255,8 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         'created_at' => 'setCreatedAt',
         'updated_at' => 'setUpdatedAt',
         'processed_at' => 'setProcessedAt',
-        'charge_status' => 'setChargeStatus'
+        'charge_status' => 'setChargeStatus',
+        'error' => 'setError'
     ];
 
     /**
@@ -275,7 +280,8 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         'created_at' => 'getCreatedAt',
         'updated_at' => 'getUpdatedAt',
         'processed_at' => 'getProcessedAt',
-        'charge_status' => 'getChargeStatus'
+        'charge_status' => 'getChargeStatus',
+        'error' => 'getError'
     ];
 
     /**
@@ -351,6 +357,7 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('processed_at', $data ?? [], null);
         $this->setIfExists('charge_status', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
     }
 
     /**
@@ -823,6 +830,33 @@ class V1ChargeResult implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable charge_status cannot be null');
         }
         $this->container['charge_status'] = $charge_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets error
+     *
+     * @return \OpenAPI\Client\Model\V1ChargeError|null
+     */
+    public function getError()
+    {
+        return $this->container['error'];
+    }
+
+    /**
+     * Sets error
+     *
+     * @param \OpenAPI\Client\Model\V1ChargeError|null $error error
+     *
+     * @return self
+     */
+    public function setError($error)
+    {
+        if (is_null($error)) {
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
+        }
+        $this->container['error'] = $error;
 
         return $this;
     }

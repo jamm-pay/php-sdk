@@ -385,7 +385,7 @@ class V1Charge implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets description
      *
-     * @param string|null $description Description is an arbitrary string for merchant to track the charge. This information is displayed on Merchant Dashboard.  決済の説明。ショップが決済を追跡するための任意の文字列です。  @gotags: validate:\"required\"
+     * @param string|null $description Description is an arbitrary string for merchant to track the charge. This information is displayed on Merchant Dashboard.  決済の説明。ショップが決済を追跡するための任意の文字列です。  @gotags: validate:\"required,max=1024\"
      *
      * @return self
      */
