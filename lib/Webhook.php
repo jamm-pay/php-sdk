@@ -65,8 +65,10 @@ final class Webhook
             throw new \Jamm\Exception\InvalidArgumentException('signature cannot be empty');
         }
 
-        // Convert payload to JSON string (Ruby: JSON.dump)
-        $json = json_encode($data, JSON_UNESCAPED_SLASHES);
+        // Convert payload to JSON string (Ruby: JSON.dump).
+        // JSON_UNESCAPED_UNICODE is required so non-ASCII characters (e.g. Japanese)
+        // are serialized as raw UTF-8 bytes, matching the signing format on the server.
+        $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         if ($json === false) {
             throw new \Jamm\Exception\InvalidArgumentException('failed to encode data as JSON');
         }

@@ -35,7 +35,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * V1WithdrawRequest Class Doc Comment
  *
  * @category Class
- * @description This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw.
+ * @description This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

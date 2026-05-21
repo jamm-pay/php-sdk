@@ -35,7 +35,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * V1OffSessionPaymentRequest Class Doc Comment
  *
  * @category Class
- * @description This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed.
+ * @description This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

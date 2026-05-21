@@ -8,6 +8,9 @@ use OpenAPI\Client\Model\V1GetChargeResponse;
 use OpenAPI\Client\Model\V1GetChargesResponse;
 use OpenAPI\Client\Model\V1OnSessionPaymentRequest;
 use OpenAPI\Client\Model\V1OnSessionPaymentResponse;
+use OpenAPI\Client\Model\GooglerpcStatus;
+use OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest;
+use OpenAPI\Client\Model\V1OffSessionPaymentAsyncResponse;
 use OpenAPI\Client\Model\V1OffSessionPaymentRequest;
 use OpenAPI\Client\Model\V1OffSessionPaymentResponse;
 
@@ -106,6 +109,83 @@ class Payment
         } catch (\Throwable $e) {
             throw new \Jamm\Exception\ApiException("Error creating off-session payment: {$e->getMessage()}", 0, $e);
         }
+    }
+
+    /**
+     * Off Session Payment (Async)
+     *
+     * Initiates an asynchronous off-session charge. The server returns immediately
+     * with a charge ID, then settles the payment in the background. Poll via
+     * `getCharge()` to retrieve the final result.
+     *
+     * Auto-fills `idempotency_key` with a UUID when the caller does not supply one,
+     * so every async charge is retry-safe by default. A caller-supplied key is
+     * left untouched so explicit retries reuse the same value. Matches the
+     * `isBlank()`/`nil? || strip.empty?` semantics from the Java, Ruby, and Node
+     * SDKs: empty or whitespace-only strings are treated as "not supplied".
+     *
+     * @example Merchant mode
+     * ```php
+     * $input = new \Jamm\Request\OffSessionAsyncInput('cus-123', $charge, idempotencyKey: 'order-2026-001');
+     * $jamm->payment->offSessionAsync($input);
+     * ```
+     *
+     * @example Platform mode
+     * ```php
+     * $input = new \Jamm\Request\OffSessionAsyncInput('cus-123', $charge, merchant: 'mer-merchant-123');
+     * $jamm->payment->offSessionAsync($input);
+     * ```
+     *
+     * @param Request\OffSessionAsyncInput $input
+     */
+    public function offSessionAsync(Request\OffSessionAsyncInput $input): V1OffSessionPaymentAsyncResponse
+    {
+        $r = new V1OffSessionPaymentAsyncRequest();
+        $r->setCustomer($input->customer);
+        $r->setCharge($input->charge);
+        $r->setIdempotencyKey(self::resolveIdempotencyKey($input->idempotencyKey));
+
+        try {
+            $result = self::api($input->merchant)->asyncOffSessionPayment($r);
+        } catch (\Throwable $e) {
+            throw new \Jamm\Exception\ApiException("Error creating async off-session payment: {$e->getMessage()}", 0, $e);
+        }
+
+        // The generated client deserializes any non-200 2xx response as GooglerpcStatus.
+        // Surface that as an explicit error instead of returning the wrong type.
+        if ($result instanceof GooglerpcStatus) {
+            $message = $result->getMessage() ?? 'unknown error';
+            $code = $result->getCode() ?? 0;
+            throw new \Jamm\Exception\ApiException(
+                "Async off-session payment returned an error status: [{$code}] {$message}",
+                (int) $code
+            );
+        }
+        if (!$result instanceof V1OffSessionPaymentAsyncResponse) {
+            throw new \Jamm\Exception\ApiException(
+                'Async off-session payment returned an unexpected response type: ' . get_debug_type($result)
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the caller-supplied idempotency key if it is a non-blank string;
+     * otherwise returns a freshly generated RFC 4122 v4 UUID. Matches the
+     * blank-coalescing behavior of the other Jamm SDKs.
+     */
+    private static function resolveIdempotencyKey(?string $key): string
+    {
+        if ($key !== null && trim($key) !== '') {
+            return $key;
+        }
+
+        $data = random_bytes(16);
+        $data[6] = chr((ord($data[6]) & 0x0f) | 0x40); // RFC 4122 version 4
+        $data[8] = chr((ord($data[8]) & 0x3f) | 0x80); // RFC 4122 variant 10
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
     /**

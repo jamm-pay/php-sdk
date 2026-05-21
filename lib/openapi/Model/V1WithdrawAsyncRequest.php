@@ -35,7 +35,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * V1WithdrawAsyncRequest Class Doc Comment
  *
  * @category Class
- * @description This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw.
+ * @description This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,7 +59,8 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $openAPITypes = [
         'customer' => 'string',
-        'charge' => '\OpenAPI\Client\Model\V1InitialCharge'
+        'charge' => '\OpenAPI\Client\Model\V1InitialCharge',
+        'idempotency_key' => 'string'
     ];
 
     /**
@@ -71,7 +72,8 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $openAPIFormats = [
         'customer' => null,
-        'charge' => null
+        'charge' => null,
+        'idempotency_key' => null
     ];
 
     /**
@@ -81,7 +83,8 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static array $openAPINullables = [
         'customer' => false,
-        'charge' => false
+        'charge' => false,
+        'idempotency_key' => false
     ];
 
     /**
@@ -171,7 +174,8 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $attributeMap = [
         'customer' => 'customer',
-        'charge' => 'charge'
+        'charge' => 'charge',
+        'idempotency_key' => 'idempotencyKey'
     ];
 
     /**
@@ -181,7 +185,8 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $setters = [
         'customer' => 'setCustomer',
-        'charge' => 'setCharge'
+        'charge' => 'setCharge',
+        'idempotency_key' => 'setIdempotencyKey'
     ];
 
     /**
@@ -191,7 +196,8 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $getters = [
         'customer' => 'getCustomer',
-        'charge' => 'getCharge'
+        'charge' => 'getCharge',
+        'idempotency_key' => 'getIdempotencyKey'
     ];
 
     /**
@@ -253,6 +259,7 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $this->setIfExists('customer', $data ?? [], null);
         $this->setIfExists('charge', $data ?? [], null);
+        $this->setIfExists('idempotency_key', $data ?? [], null);
     }
 
     /**
@@ -347,6 +354,33 @@ class V1WithdrawAsyncRequest implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable charge cannot be null');
         }
         $this->container['charge'] = $charge;
+
+        return $this;
+    }
+
+    /**
+     * Gets idempotency_key
+     *
+     * @return string|null
+     */
+    public function getIdempotencyKey()
+    {
+        return $this->container['idempotency_key'];
+    }
+
+    /**
+     * Sets idempotency_key
+     *
+     * @param string|null $idempotency_key Merchant-supplied idempotency key for retry safety. When present, a retry with the same (merchant, idempotency_key) returns the original charge instead of creating a new one. When absent (empty), the server generates a UUID per call (current behavior). ASCII only, 1-255 chars matching ^[a-zA-Z0-9_\\-]{1,255}$.
+     *
+     * @return self
+     */
+    public function setIdempotencyKey($idempotency_key)
+    {
+        if (is_null($idempotency_key)) {
+            throw new \InvalidArgumentException('non-nullable idempotency_key cannot be null');
+        }
+        $this->container['idempotency_key'] = $idempotency_key;
 
         return $this;
     }

@@ -35,7 +35,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * V1OnSessionPaymentRequest Class Doc Comment
  *
  * @category Class
- * @description Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters.
+ * @description Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. Supports triggerError for test error simulation via the core InitiatePayment/ApprovePayment flow. See InitialCharge.metadata for details on behavior differences by stage.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

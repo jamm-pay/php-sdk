@@ -444,7 +444,7 @@ class PaymentApi
      *
      * Initiate async off-session payment
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['asyncOffSessionPayment'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -462,7 +462,7 @@ class PaymentApi
      *
      * Initiate async off-session payment
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['asyncOffSessionPayment'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -561,7 +561,7 @@ class PaymentApi
      *
      * Initiate async off-session payment
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['asyncOffSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -582,7 +582,7 @@ class PaymentApi
      *
      * Initiate async off-session payment
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['asyncOffSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -632,7 +632,7 @@ class PaymentApi
     /**
      * Create request for operation 'asyncOffSessionPayment'
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentAsyncRequest $body This message represents a request to process an off-session payment asynchronously. It contains the customer ID and the amount to charge. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['asyncOffSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1881,7 +1881,7 @@ class PaymentApi
      *
      * Initiate async withdraw (internal)
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['internalWithdrawAsync'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1899,7 +1899,7 @@ class PaymentApi
      *
      * Initiate async withdraw (internal)
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['internalWithdrawAsync'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1998,7 +1998,7 @@ class PaymentApi
      *
      * Initiate async withdraw (internal)
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['internalWithdrawAsync'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2019,7 +2019,7 @@ class PaymentApi
      *
      * Initiate async withdraw (internal)
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['internalWithdrawAsync'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2069,7 +2069,7 @@ class PaymentApi
     /**
      * Create request for operation 'internalWithdrawAsync'
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawAsyncRequest $body This message represents a request to withdraw money from a customer asynchronously. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['internalWithdrawAsync'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2443,7 +2443,7 @@ class PaymentApi
      *
      * Process payment directly without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['offSessionPayment'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -2461,7 +2461,7 @@ class PaymentApi
      *
      * Process payment directly without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['offSessionPayment'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -2560,7 +2560,7 @@ class PaymentApi
      *
      * Process payment directly without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['offSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2581,7 +2581,7 @@ class PaymentApi
      *
      * Process payment directly without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['offSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2631,7 +2631,7 @@ class PaymentApi
     /**
      * Create request for operation 'offSessionPayment'
      *
-     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. (required)
+     * @param  \OpenAPI\Client\Model\V1OffSessionPaymentRequest $body This message represents a request to process a payment directly within the application. It contains the customer ID and charge details to be processed. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['offSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2724,7 +2724,7 @@ class PaymentApi
      *
      * Process payment with optional redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. (required)
+     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. Supports triggerError for test error simulation via the core InitiatePayment/ApprovePayment flow. See InitialCharge.metadata for details on behavior differences by stage. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['onSessionPayment'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -2742,7 +2742,7 @@ class PaymentApi
      *
      * Process payment with optional redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. (required)
+     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. Supports triggerError for test error simulation via the core InitiatePayment/ApprovePayment flow. See InitialCharge.metadata for details on behavior differences by stage. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['onSessionPayment'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -2841,7 +2841,7 @@ class PaymentApi
      *
      * Process payment with optional redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. (required)
+     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. Supports triggerError for test error simulation via the core InitiatePayment/ApprovePayment flow. See InitialCharge.metadata for details on behavior differences by stage. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['onSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2862,7 +2862,7 @@ class PaymentApi
      *
      * Process payment with optional redirect
      *
-     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. (required)
+     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. Supports triggerError for test error simulation via the core InitiatePayment/ApprovePayment flow. See InitialCharge.metadata for details on behavior differences by stage. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['onSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -2912,7 +2912,7 @@ class PaymentApi
     /**
      * Create request for operation 'onSessionPayment'
      *
-     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. (required)
+     * @param  \OpenAPI\Client\Model\V1OnSessionPaymentRequest $body Request message for the unified payment interface. The system intelligently routes the request to the appropriate payment method based on the provided parameters. Supports triggerError for test error simulation via the core InitiatePayment/ApprovePayment flow. See InitialCharge.metadata for details on behavior differences by stage. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['onSessionPayment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3286,7 +3286,7 @@ class PaymentApi
      *
      * Withdraw money from customer immediately, without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['withdraw'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3304,7 +3304,7 @@ class PaymentApi
      *
      * Withdraw money from customer immediately, without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['withdraw'] to see the possible values for this operation
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3403,7 +3403,7 @@ class PaymentApi
      *
      * Withdraw money from customer immediately, without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['withdraw'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3424,7 +3424,7 @@ class PaymentApi
      *
      * Withdraw money from customer immediately, without redirect
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['withdraw'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3474,7 +3474,7 @@ class PaymentApi
     /**
      * Create request for operation 'withdraw'
      *
-     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. (required)
+     * @param  \OpenAPI\Client\Model\V1WithdrawRequest $body This message represents a request to withdraw money from a customer. It contains the customer ID and the amount to withdraw. Supports triggerError in charge.metadata for test error simulation. See InitialCharge.metadata. (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['withdraw'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
