@@ -8,6 +8,7 @@ use OpenAPI\Client\Model\V1ContractMessage;
 use OpenAPI\Client\Model\V1UserAccountMessage;
 use OpenAPI\Client\Model\V1EventType;
 use OpenAPI\Client\Model\V1MerchantWebhookMessage;
+use OpenAPI\Client\Model\V1RefundInfo;
 
 final class Webhook
 {
@@ -31,7 +32,7 @@ final class Webhook
             case V1EventType::EVENT_TYPE_CHARGE_FAIL:
             case V1EventType::EVENT_TYPE_REFUND_SUCCEEDED:
             case V1EventType::EVENT_TYPE_REFUND_FAILED:
-                $out->setContent(new V1ChargeMessage(is_array($content) ? $content : []));
+                $out->setContent(new V1ChargeMessage(self::normalizeChargeContent($content)));
                 return $out;
 
             case V1EventType::EVENT_TYPE_CONTRACT_ACTIVATED:
@@ -44,6 +45,37 @@ final class Webhook
         }
 
         throw new \Jamm\Exception\UnknownEventTypeException('Unknown event type');
+    }
+
+    /**
+     * Normalize charge/refund webhook content into the flat V1ChargeMessage shape.
+     *
+     * Newer refund webhooks nest the charge under `transaction` and the refund
+     * details under `refund` (e.g. `{ "transaction": {...}, "refund": {...} }`).
+     * Older payloads send the transaction fields flat. This flattens the former
+     * so V1ChargeMessage exposes `id`, `customer`, etc. either way.
+     *
+     * @param mixed $content
+     * @return array<string,mixed>
+     */
+    private static function normalizeChargeContent($content): array
+    {
+        if (!is_array($content)) {
+            return [];
+        }
+
+        if (!isset($content['transaction']) || !is_array($content['transaction'])) {
+            return $content;
+        }
+
+        $refund = $content['refund'] ?? null;
+        $charge = $content['transaction'];
+
+        if (is_array($refund)) {
+            $charge['refund'] = new V1RefundInfo($refund);
+        }
+
+        return $charge;
     }
 
     /**
