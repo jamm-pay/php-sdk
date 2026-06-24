@@ -23,7 +23,7 @@ final class Config
     /**
      * SDK version, updated through build pipeline.
      */
-    public const VERSION = '0.5.0';
+    public const VERSION = '0.6.0';
 
     private static ?self $instance = null;
 

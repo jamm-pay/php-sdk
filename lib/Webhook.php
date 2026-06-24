@@ -8,7 +8,6 @@ use OpenAPI\Client\Model\V1ContractMessage;
 use OpenAPI\Client\Model\V1UserAccountMessage;
 use OpenAPI\Client\Model\V1EventType;
 use OpenAPI\Client\Model\V1MerchantWebhookMessage;
-use OpenAPI\Client\Model\V1RefundInfo;
 
 final class Webhook
 {
@@ -32,15 +31,15 @@ final class Webhook
             case V1EventType::EVENT_TYPE_CHARGE_FAIL:
             case V1EventType::EVENT_TYPE_REFUND_SUCCEEDED:
             case V1EventType::EVENT_TYPE_REFUND_FAILED:
-                $out->setContent(new V1ChargeMessage(self::normalizeChargeContent($content)));
+                $out->setContent(self::buildModel(V1ChargeMessage::class, self::normalizeChargeContent($content)));
                 return $out;
 
             case V1EventType::EVENT_TYPE_CONTRACT_ACTIVATED:
-                $out->setContent(new V1ContractMessage(is_array($content) ? $content : []));
+                $out->setContent(self::buildModel(V1ContractMessage::class, is_array($content) ? $content : []));
                 return $out;
 
             case V1EventType::EVENT_TYPE_USER_ACCOUNT_DELETED:
-                $out->setContent(new V1UserAccountMessage(is_array($content) ? $content : []));
+                $out->setContent(self::buildModel(V1UserAccountMessage::class, is_array($content) ? $content : []));
                 return $out;
         }
 
@@ -65,6 +64,7 @@ final class Webhook
         }
 
         if (!isset($content['transaction']) || !is_array($content['transaction'])) {
+            // Flat charge payload; buildModel() handles enum coercion.
             return $content;
         }
 
@@ -72,10 +72,76 @@ final class Webhook
         $charge = $content['transaction'];
 
         if (is_array($refund)) {
-            $charge['refund'] = new V1RefundInfo($refund);
+            // Keep refund as the raw array; buildModel() coerces it into a typed
+            // V1RefundInfo (and recursively types its nested error). Also surface
+            // the rfd- id on the flat refund_id attribute the model documents.
+            $charge['refund'] = $refund;
+            if (isset($refund['id'])) {
+                $charge['refund_id'] = $refund['id'];
+            }
         }
 
         return $charge;
+    }
+
+    /**
+     * Construct a generated model from a snake_case webhook payload, coercing
+     * wire values into the shapes the model expects:
+     *   - numeric enums  -> their string enum constant (the backend serializes
+     *                       webhooks with Go's json.Marshal, so enums arrive
+     *                       numeric while the generated models are string-based)
+     *   - nested models  -> typed instances (the generated constructor assigns
+     *                       nested arrays verbatim, so e.g. refund.error would
+     *                       stay a raw array and getError()->getCode() would fatal)
+     *   - "Type[]" lists -> each element coerced by Type
+     * Unknown keys are ignored by the generated constructor (forward-compatible).
+     *
+     * @param class-string $class
+     * @param array<string,mixed> $data
+     */
+    private static function buildModel(string $class, array $data): object
+    {
+        $types = $class::openAPITypes();
+
+        foreach ($data as $key => $value) {
+            $type = $types[$key] ?? null;
+            if ($type !== null) {
+                $data[$key] = self::coerceValue($type, $value);
+            }
+        }
+
+        return new $class($data);
+    }
+
+    /**
+     * Coerce a single wire value according to its openapi type string.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    private static function coerceValue(string $type, $value)
+    {
+        // "Type[]" array fields: coerce each element by the inner type.
+        if (is_array($value) && str_ends_with($type, '[]')) {
+            $inner = substr($type, 0, -2);
+            return array_map(static fn($element) => self::coerceValue($inner, $element), $value);
+        }
+
+        $class = ltrim($type, '\\');
+
+        // Numeric enum -> string constant. Unknown/out-of-range values fall back
+        // to the enum's first member (the *_UNSPECIFIED zero value).
+        if (is_int($value) && class_exists($class) && method_exists($class, 'getAllowableEnumValues')) {
+            $values = $class::getAllowableEnumValues();
+            return $values[$value] ?? $values[0];
+        }
+
+        // Nested model -> typed instance.
+        if (is_array($value) && class_exists($class) && method_exists($class, 'openAPITypes')) {
+            return self::buildModel($class, $value);
+        }
+
+        return $value;
     }
 
     /**

@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-06-24
+
+### Added
+
+- Resolve numeric enum wire values (`status`, `api_source`, …) onto their string enum constants on parsed charge/refund webhooks, matching REST API responses (the backend serializes webhooks with `json.Marshal`, so all enums arrive numeric)
+- Surface the refund `rfd-` id on the flat `refund_id` attribute in addition to the nested `refund`
+
+### Fixed
+
+- `status` on refund/charge webhooks is no longer left as a raw integer
+- Nested webhook fields (e.g. `refund.error`) are now typed model instances instead of raw arrays, so `getError()->getCode()` / `getMessage()` work instead of a fatal error
+
 ## [0.5.0] - 2026-06-17
 
 ### Added

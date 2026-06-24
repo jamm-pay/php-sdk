@@ -75,7 +75,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'int',
         'error' => '\OpenAPI\Client\Model\Apiv1Error',
         'refund_id' => 'string',
-        'refund' => '\OpenAPI\Client\Model\V1RefundInfo'
+        'refund' => '\OpenAPI\Client\Model\V1RefundInfo',
+        'api_source' => '\OpenAPI\Client\Model\ChargeMessageApiSource'
     ];
 
     /**
@@ -104,7 +105,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'int32',
         'error' => null,
         'refund_id' => null,
-        'refund' => null
+        'refund' => null,
+        'api_source' => null
     ];
 
     /**
@@ -131,7 +133,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => false,
         'error' => false,
         'refund_id' => false,
-        'refund' => false
+        'refund' => false,
+        'api_source' => false
     ];
 
     /**
@@ -238,7 +241,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'consumptionTax',
         'error' => 'error',
         'refund_id' => 'refundId',
-        'refund' => 'refund'
+        'refund' => 'refund',
+        'api_source' => 'apiSource'
     ];
 
     /**
@@ -265,7 +269,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'setConsumptionTax',
         'error' => 'setError',
         'refund_id' => 'setRefundId',
-        'refund' => 'setRefund'
+        'refund' => 'setRefund',
+        'api_source' => 'setApiSource'
     ];
 
     /**
@@ -292,7 +297,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'getConsumptionTax',
         'error' => 'getError',
         'refund_id' => 'getRefundId',
-        'refund' => 'getRefund'
+        'refund' => 'getRefund',
+        'api_source' => 'getApiSource'
     ];
 
     /**
@@ -371,6 +377,7 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('error', $data ?? [], null);
         $this->setIfExists('refund_id', $data ?? [], null);
         $this->setIfExists('refund', $data ?? [], null);
+        $this->setIfExists('api_source', $data ?? [], null);
     }
 
     /**
@@ -924,6 +931,33 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable refund cannot be null');
         }
         $this->container['refund'] = $refund;
+
+        return $this;
+    }
+
+    /**
+     * Gets api_source
+     *
+     * @return \OpenAPI\Client\Model\ChargeMessageApiSource|null
+     */
+    public function getApiSource()
+    {
+        return $this->container['api_source'];
+    }
+
+    /**
+     * Sets api_source
+     *
+     * @param \OpenAPI\Client\Model\ChargeMessageApiSource|null $api_source api_source
+     *
+     * @return self
+     */
+    public function setApiSource($api_source)
+    {
+        if (is_null($api_source)) {
+            throw new \InvalidArgumentException('non-nullable api_source cannot be null');
+        }
+        $this->container['api_source'] = $api_source;
 
         return $this;
     }

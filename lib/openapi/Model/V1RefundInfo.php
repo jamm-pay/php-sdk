@@ -58,7 +58,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $openAPITypes = [
-        'refund_id' => 'string',
+        'id' => 'string',
         'amount_refunded' => 'int',
         'jamm_fee' => 'int',
         'consumption_tax' => 'int',
@@ -75,7 +75,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'refund_id' => null,
+        'id' => null,
         'amount_refunded' => 'int32',
         'jamm_fee' => 'int32',
         'consumption_tax' => 'int32',
@@ -90,7 +90,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'refund_id' => false,
+        'id' => false,
         'amount_refunded' => false,
         'jamm_fee' => false,
         'consumption_tax' => false,
@@ -185,7 +185,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'refund_id' => 'refundId',
+        'id' => 'id',
         'amount_refunded' => 'amountRefunded',
         'jamm_fee' => 'jammFee',
         'consumption_tax' => 'consumptionTax',
@@ -200,7 +200,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'refund_id' => 'setRefundId',
+        'id' => 'setId',
         'amount_refunded' => 'setAmountRefunded',
         'jamm_fee' => 'setJammFee',
         'consumption_tax' => 'setConsumptionTax',
@@ -215,7 +215,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'refund_id' => 'getRefundId',
+        'id' => 'getId',
         'amount_refunded' => 'getAmountRefunded',
         'jamm_fee' => 'getJammFee',
         'consumption_tax' => 'getConsumptionTax',
@@ -281,7 +281,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('refund_id', $data ?? [], null);
+        $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('amount_refunded', $data ?? [], null);
         $this->setIfExists('jamm_fee', $data ?? [], null);
         $this->setIfExists('consumption_tax', $data ?? [], null);
@@ -333,28 +333,28 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets refund_id
+     * Gets id
      *
      * @return string|null
      */
-    public function getRefundId()
+    public function getId()
     {
-        return $this->container['refund_id'];
+        return $this->container['id'];
     }
 
     /**
-     * Sets refund_id
+     * Sets id
      *
-     * @param string|null $refund_id External refund identifier (rfd-*).
+     * @param string|null $id External refund identifier (rfd-*).
      *
      * @return self
      */
-    public function setRefundId($refund_id)
+    public function setId($id)
     {
-        if (is_null($refund_id)) {
-            throw new \InvalidArgumentException('non-nullable refund_id cannot be null');
+        if (is_null($id)) {
+            throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
-        $this->container['refund_id'] = $refund_id;
+        $this->container['id'] = $id;
 
         return $this;
     }
