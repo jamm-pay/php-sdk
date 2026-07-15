@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.0] - 2026-06-24
+## [0.7.0] - 2026-07-15
 
 ### Added
 
+- Added `Webhook::verifyAndParse(string $rawBody)` — verifies the HMAC signature over the exact received `content` bytes and parses in one step. Unlike `Webhook::verify`, it is not broken by JSON re-serialization (correctly handles `&`, `<`, `>` in content) and rejects bodies with duplicate top-level keys.
 - Resolve numeric enum wire values (`status`, `api_source`, …) onto their string enum constants on parsed charge/refund webhooks, matching REST API responses (the backend serializes webhooks with `json.Marshal`, so all enums arrive numeric)
 - Surface the refund `rfd-` id on the flat `refund_id` attribute in addition to the nested `refund`
 
@@ -16,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `status` on refund/charge webhooks is no longer left as a raw integer
 - Nested webhook fields (e.g. `refund.error`) are now typed model instances instead of raw arrays, so `getError()->getCode()` / `getMessage()` work instead of a fatal error
+
+## [0.6.0] - 2026-07-03
+
+(Not Available)
 
 ## [0.5.0] - 2026-06-17
 
