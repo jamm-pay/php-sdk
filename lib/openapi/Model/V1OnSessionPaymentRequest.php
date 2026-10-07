@@ -62,6 +62,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         'buyer' => '\OpenAPI\Client\Model\V1Buyer',
         'charge' => '\OpenAPI\Client\Model\V1InitialCharge',
         'one_time' => 'bool',
+        'idempotency_key' => 'string',
         'redirect' => '\OpenAPI\Client\Model\V1URL'
     ];
 
@@ -77,6 +78,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         'buyer' => null,
         'charge' => null,
         'one_time' => null,
+        'idempotency_key' => null,
         'redirect' => null
     ];
 
@@ -90,6 +92,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         'buyer' => false,
         'charge' => false,
         'one_time' => false,
+        'idempotency_key' => false,
         'redirect' => false
     ];
 
@@ -183,6 +186,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         'buyer' => 'buyer',
         'charge' => 'charge',
         'one_time' => 'oneTime',
+        'idempotency_key' => 'idempotencyKey',
         'redirect' => 'redirect'
     ];
 
@@ -196,6 +200,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         'buyer' => 'setBuyer',
         'charge' => 'setCharge',
         'one_time' => 'setOneTime',
+        'idempotency_key' => 'setIdempotencyKey',
         'redirect' => 'setRedirect'
     ];
 
@@ -209,6 +214,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         'buyer' => 'getBuyer',
         'charge' => 'getCharge',
         'one_time' => 'getOneTime',
+        'idempotency_key' => 'getIdempotencyKey',
         'redirect' => 'getRedirect'
     ];
 
@@ -273,6 +279,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('buyer', $data ?? [], null);
         $this->setIfExists('charge', $data ?? [], null);
         $this->setIfExists('one_time', $data ?? [], null);
+        $this->setIfExists('idempotency_key', $data ?? [], null);
         $this->setIfExists('redirect', $data ?? [], null);
     }
 
@@ -331,7 +338,7 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets customer
      *
-     * @param string|null $customer customer
+     * @param string|null $customer Optional customer ID for an existing merchant customer (cus- prefix). Identifies the subject. With a charge, an active contract is charged; without one, the buyer re-approves a new contract for this same customer. Buyer fields other than email overlay the stored customer.
      *
      * @return self
      */
@@ -422,6 +429,33 @@ class V1OnSessionPaymentRequest implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable one_time cannot be null');
         }
         $this->container['one_time'] = $one_time;
+
+        return $this;
+    }
+
+    /**
+     * Gets idempotency_key
+     *
+     * @return string|null
+     */
+    public function getIdempotencyKey()
+    {
+        return $this->container['idempotency_key'];
+    }
+
+    /**
+     * Sets idempotency_key
+     *
+     * @param string|null $idempotency_key Optional. Same (merchant, key) returns the original payment link; same key with different params is rejected. Absent: new session each call. ASCII 1-255 matching ^[a-zA-Z0-9_\\-]{1,255}$.
+     *
+     * @return self
+     */
+    public function setIdempotencyKey($idempotency_key)
+    {
+        if (is_null($idempotency_key)) {
+            throw new \InvalidArgumentException('non-nullable idempotency_key cannot be null');
+        }
+        $this->container['idempotency_key'] = $idempotency_key;
 
         return $this;
     }

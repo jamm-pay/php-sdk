@@ -37,15 +37,17 @@ class Client
      * @param string $clientSecret Client secret for OAuth2 authentication
      * @param string $environment Environment (prod, staging, local)
      * @param bool $platform Set to true for platform mode (call API on behalf of merchants)
+     * @param string|null $apiVersion Pin an API version (YYYY-MM-DD) no newer than ApiVersion::VALUE; null uses it
      */
     public function __construct(
         string $clientId,
         string $clientSecret,
         string $environment = Config::ENV_PROD,
         bool $platform = false,
+        ?string $apiVersion = null,
     ) {
         // Initialize the global config
-        Config::init($clientId, $clientSecret, $environment, $platform);
+        Config::init($clientId, $clientSecret, $environment, $platform, $apiVersion);
 
         // Initialize services
         $this->customer = new Customer();

@@ -4,6 +4,9 @@ namespace Jamm;
 
 use OpenAPI\Client\Configuration;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Psr\Http\Message\RequestInterface;
 use Jamm\Exception\ConfigException;
 
 final class Config
@@ -23,7 +26,7 @@ final class Config
     /**
      * SDK version, updated through build pipeline.
      */
-    public const VERSION = '0.7.0';
+    public const VERSION = '0.8.0';
 
     private static ?self $instance = null;
 
@@ -40,6 +43,7 @@ final class Config
         public readonly string $apiBaseUrl,
         public readonly string $oauth2BaseUrl,
         public readonly string $mode,
+        public readonly string $apiVersion,
     ) {}
 
     /**
@@ -54,17 +58,25 @@ final class Config
      * ```php
      * Config::init('platform-client-id', 'platform-client-secret', 'prod', platform: true);
      * ```
+     *
+     * @example Pin an API version older than the one this SDK was built against
+     * ```php
+     * Config::init('client-id', 'client-secret', 'prod', apiVersion: '2026-08-26');
+     * ```
      */
     public static function init(
         string $clientId,
         string $clientSecret,
         string $environment = self::ENV_PROD,
         bool $platform = false,
+        ?string $apiVersion = null,
     ): self {
         // Validation: Ensure we don't have empty credentials
         if (empty($clientId) || empty($clientSecret)) {
             throw new ConfigException('Client ID and Secret are required.');
         }
+
+        $apiVersion = self::resolveApiVersion($apiVersion);
 
         $mode = $platform ? self::MODE_PLATFORM : self::MODE_MERCHANT;
 
@@ -78,9 +90,32 @@ final class Config
             apiBaseUrl: self::getApiUrl($environment),
             oauth2BaseUrl: self::getOAuth2Url($environment, $mode),
             mode: $mode,
+            apiVersion: $apiVersion,
         );
 
         return self::$instance;
+    }
+
+    private static function resolveApiVersion(?string $apiVersion): string
+    {
+        if ($apiVersion === null || $apiVersion === '') {
+            return ApiVersion::VALUE;
+        }
+
+        if (
+            !preg_match('/^(\d{4})-(\d{2})-(\d{2})\z/', $apiVersion, $m)
+            || !checkdate((int) $m[2], (int) $m[3], (int) $m[1])
+        ) {
+            throw new ConfigException("invalid apiVersion \"{$apiVersion}\": expected YYYY-MM-DD");
+        }
+
+        if (strcmp($apiVersion, ApiVersion::VALUE) > 0) {
+            throw new ConfigException(
+                "apiVersion {$apiVersion} is newer than this SDK supports (" . ApiVersion::VALUE . '); upgrade the SDK to use it'
+            );
+        }
+
+        return $apiVersion;
     }
 
     /**
@@ -142,17 +177,25 @@ final class Config
         $conf->setHost($this->apiBaseUrl);
 
         $headers = [
-            'X-SDK-Version' => 'php:' . self::VERSION,
-            'Authorization' => 'Bearer ' . $token,
-            'Content-Type'  => 'application/json',
-            'Accept'        => 'application/json',
+            'Jamm-SDK-Version' => 'php:' . self::VERSION,
+            'Authorization'    => 'Bearer ' . $token,
+            'Content-Type'     => 'application/json',
+            'Accept'           => 'application/json',
         ];
 
         if ($merchant !== null) {
             $headers['Jamm-Merchant'] = $merchant;
         }
 
+        // Set as middleware, not a client default, so a per-request header cannot override it.
+        $apiVersion = $this->apiVersion;
+        $stack = HandlerStack::create();
+        $stack->push(Middleware::mapRequest(
+            static fn (RequestInterface $request): RequestInterface => $request->withHeader('Jamm-API-Version', $apiVersion),
+        ), 'jamm_api_version');
+
         $http = new GuzzleClient([
+            'handler' => $stack,
             'headers' => $headers,
             'verify'  => $this->verifySSL(),
             'timeout' => 30.0,

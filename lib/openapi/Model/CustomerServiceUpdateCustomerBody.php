@@ -609,7 +609,7 @@ class CustomerServiceUpdateCustomerBody implements ModelInterface, ArrayAccess, 
     /**
      * Sets metadata
      *
-     * @param array<string,string>|null $metadata Arbitrary key-value additional information about the customer. All the existing metadata will be overwritten by the new metadata.  Customerに関する任意のキーと値の追加情報。 すべての既存のメタデータは新しいメタデータで上書きされます。
+     * @param array<string,string>|null $metadata Arbitrary key-value additional information about the customer. All the existing metadata will be overwritten by the new metadata.  Customerに関する任意のキーと値の追加情報。 すべての既存のメタデータは新しいメタデータで上書きされます。 At most 50 entries; keys up to 64 and values up to 512 characters.  最大50件、キーは64文字、値は512文字までです。
      *
      * @return self
      */

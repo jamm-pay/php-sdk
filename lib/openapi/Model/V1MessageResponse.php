@@ -61,7 +61,8 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'charge_message' => '\OpenAPI\Client\Model\V1ChargeMessage',
         'contract_message' => '\OpenAPI\Client\Model\V1ContractMessage',
         'user_account_message' => '\OpenAPI\Client\Model\V1UserAccountMessage',
-        'refund_info' => '\OpenAPI\Client\Model\V1RefundInfo'
+        'refund_info' => '\OpenAPI\Client\Model\V1RefundInfo',
+        'refund_webhook_content' => '\OpenAPI\Client\Model\V1RefundWebhookContent'
     ];
 
     /**
@@ -76,7 +77,8 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'charge_message' => null,
         'contract_message' => null,
         'user_account_message' => null,
-        'refund_info' => null
+        'refund_info' => null,
+        'refund_webhook_content' => null
     ];
 
     /**
@@ -89,7 +91,8 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'charge_message' => false,
         'contract_message' => false,
         'user_account_message' => false,
-        'refund_info' => false
+        'refund_info' => false,
+        'refund_webhook_content' => false
     ];
 
     /**
@@ -182,7 +185,8 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'charge_message' => 'chargeMessage',
         'contract_message' => 'contractMessage',
         'user_account_message' => 'userAccountMessage',
-        'refund_info' => 'refundInfo'
+        'refund_info' => 'refundInfo',
+        'refund_webhook_content' => 'refundWebhookContent'
     ];
 
     /**
@@ -195,7 +199,8 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'charge_message' => 'setChargeMessage',
         'contract_message' => 'setContractMessage',
         'user_account_message' => 'setUserAccountMessage',
-        'refund_info' => 'setRefundInfo'
+        'refund_info' => 'setRefundInfo',
+        'refund_webhook_content' => 'setRefundWebhookContent'
     ];
 
     /**
@@ -208,7 +213,8 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'charge_message' => 'getChargeMessage',
         'contract_message' => 'getContractMessage',
         'user_account_message' => 'getUserAccountMessage',
-        'refund_info' => 'getRefundInfo'
+        'refund_info' => 'getRefundInfo',
+        'refund_webhook_content' => 'getRefundWebhookContent'
     ];
 
     /**
@@ -273,6 +279,7 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('contract_message', $data ?? [], null);
         $this->setIfExists('user_account_message', $data ?? [], null);
         $this->setIfExists('refund_info', $data ?? [], null);
+        $this->setIfExists('refund_webhook_content', $data ?? [], null);
     }
 
     /**
@@ -448,6 +455,33 @@ class V1MessageResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
             throw new \InvalidArgumentException('non-nullable refund_info cannot be null');
         }
         $this->container['refund_info'] = $refund_info;
+
+        return $this;
+    }
+
+    /**
+     * Gets refund_webhook_content
+     *
+     * @return \OpenAPI\Client\Model\V1RefundWebhookContent|null
+     */
+    public function getRefundWebhookContent()
+    {
+        return $this->container['refund_webhook_content'];
+    }
+
+    /**
+     * Sets refund_webhook_content
+     *
+     * @param \OpenAPI\Client\Model\V1RefundWebhookContent|null $refund_webhook_content refund_webhook_content
+     *
+     * @return self
+     */
+    public function setRefundWebhookContent($refund_webhook_content)
+    {
+        if (is_null($refund_webhook_content)) {
+            throw new \InvalidArgumentException('non-nullable refund_webhook_content cannot be null');
+        }
+        $this->container['refund_webhook_content'] = $refund_webhook_content;
 
         return $this;
     }

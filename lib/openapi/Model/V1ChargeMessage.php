@@ -75,7 +75,9 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'int',
         'error' => '\OpenAPI\Client\Model\Apiv1Error',
         'refund_id' => 'string',
-        'refund' => '\OpenAPI\Client\Model\V1RefundInfo'
+        'refund' => '\OpenAPI\Client\Model\V1RefundInfo',
+        'api_source' => '\OpenAPI\Client\Model\ChargeMessageApiSource',
+        'metadata' => 'array<string,string>'
     ];
 
     /**
@@ -104,7 +106,9 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'int32',
         'error' => null,
         'refund_id' => null,
-        'refund' => null
+        'refund' => null,
+        'api_source' => null,
+        'metadata' => null
     ];
 
     /**
@@ -131,7 +135,9 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => false,
         'error' => false,
         'refund_id' => false,
-        'refund' => false
+        'refund' => false,
+        'api_source' => false,
+        'metadata' => false
     ];
 
     /**
@@ -238,7 +244,9 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'consumptionTax',
         'error' => 'error',
         'refund_id' => 'refundId',
-        'refund' => 'refund'
+        'refund' => 'refund',
+        'api_source' => 'apiSource',
+        'metadata' => 'metadata'
     ];
 
     /**
@@ -265,7 +273,9 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'setConsumptionTax',
         'error' => 'setError',
         'refund_id' => 'setRefundId',
-        'refund' => 'setRefund'
+        'refund' => 'setRefund',
+        'api_source' => 'setApiSource',
+        'metadata' => 'setMetadata'
     ];
 
     /**
@@ -292,7 +302,9 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         'consumption_tax' => 'getConsumptionTax',
         'error' => 'getError',
         'refund_id' => 'getRefundId',
-        'refund' => 'getRefund'
+        'refund' => 'getRefund',
+        'api_source' => 'getApiSource',
+        'metadata' => 'getMetadata'
     ];
 
     /**
@@ -371,6 +383,8 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('error', $data ?? [], null);
         $this->setIfExists('refund_id', $data ?? [], null);
         $this->setIfExists('refund', $data ?? [], null);
+        $this->setIfExists('api_source', $data ?? [], null);
+        $this->setIfExists('metadata', $data ?? [], null);
     }
 
     /**
@@ -924,6 +938,60 @@ class V1ChargeMessage implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable refund cannot be null');
         }
         $this->container['refund'] = $refund;
+
+        return $this;
+    }
+
+    /**
+     * Gets api_source
+     *
+     * @return \OpenAPI\Client\Model\ChargeMessageApiSource|null
+     */
+    public function getApiSource()
+    {
+        return $this->container['api_source'];
+    }
+
+    /**
+     * Sets api_source
+     *
+     * @param \OpenAPI\Client\Model\ChargeMessageApiSource|null $api_source api_source
+     *
+     * @return self
+     */
+    public function setApiSource($api_source)
+    {
+        if (is_null($api_source)) {
+            throw new \InvalidArgumentException('non-nullable api_source cannot be null');
+        }
+        $this->container['api_source'] = $api_source;
+
+        return $this;
+    }
+
+    /**
+     * Gets metadata
+     *
+     * @return array<string,string>|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param array<string,string>|null $metadata Merchant-supplied metadata attached to the charge at creation, echoed back verbatim. Omitted when the charge carries no metadata.
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        }
+        $this->container['metadata'] = $metadata;
 
         return $this;
     }

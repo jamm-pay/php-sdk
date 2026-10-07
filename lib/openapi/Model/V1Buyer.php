@@ -643,7 +643,7 @@ class V1Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets metadata
      *
-     * @param array<string,string>|null $metadata Arbitrary key-value additional information about the customer. You can see this information in our merchant dashboard.  Customerに関する任意のキーと値の追加情報。 加盟店ダッシュボードで確認できます。
+     * @param array<string,string>|null $metadata Arbitrary key-value additional information about the customer. You can see this information in our merchant dashboard.  Customerに関する任意のキーと値の追加情報。 加盟店ダッシュボードで確認できます。 At most 50 entries; keys up to 64 and values up to 512 characters.  最大50件、キーは64文字、値は512文字までです。
      *
      * @return self
      */

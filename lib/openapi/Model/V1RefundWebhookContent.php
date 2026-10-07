@@ -1,6 +1,6 @@
 <?php
 /**
- * V1RefundInfo
+ * V1RefundWebhookContent
  *
  * PHP version 8.1
  *
@@ -32,16 +32,16 @@ use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * V1RefundInfo Class Doc Comment
+ * V1RefundWebhookContent Class Doc Comment
  *
  * @category Class
- * @description RefundInfo contains refund-specific details for refund and refund_failed webhook events.
+ * @description RefundWebhookContent is the payload of refund_succeeded and refund_failed: the transaction and the refund as sibling objects.
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
+class V1RefundWebhookContent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      *
      * @var string
      */
-    protected static $openAPIModelName = 'v1RefundInfo';
+    protected static $openAPIModelName = 'v1RefundWebhookContent';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -58,13 +58,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $openAPITypes = [
-        'id' => 'string',
-        'amount_refunded' => 'int',
-        'jamm_fee' => 'int',
-        'consumption_tax' => 'int',
-        'original_transaction_fee_waived' => 'bool',
-        'error' => '\OpenAPI\Client\Model\Apiv1Error',
-        'processed_at' => 'string'
+        'transaction' => '\OpenAPI\Client\Model\V1ChargeMessage',
+        'refund' => '\OpenAPI\Client\Model\V1RefundInfo'
     ];
 
     /**
@@ -75,13 +70,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'id' => null,
-        'amount_refunded' => 'int32',
-        'jamm_fee' => 'int32',
-        'consumption_tax' => 'int32',
-        'original_transaction_fee_waived' => null,
-        'error' => null,
-        'processed_at' => null
+        'transaction' => null,
+        'refund' => null
     ];
 
     /**
@@ -90,13 +80,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'id' => false,
-        'amount_refunded' => false,
-        'jamm_fee' => false,
-        'consumption_tax' => false,
-        'original_transaction_fee_waived' => false,
-        'error' => false,
-        'processed_at' => false
+        'transaction' => false,
+        'refund' => false
     ];
 
     /**
@@ -185,13 +170,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'id' => 'id',
-        'amount_refunded' => 'amountRefunded',
-        'jamm_fee' => 'jammFee',
-        'consumption_tax' => 'consumptionTax',
-        'original_transaction_fee_waived' => 'originalTransactionFeeWaived',
-        'error' => 'error',
-        'processed_at' => 'processedAt'
+        'transaction' => 'transaction',
+        'refund' => 'refund'
     ];
 
     /**
@@ -200,13 +180,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'id' => 'setId',
-        'amount_refunded' => 'setAmountRefunded',
-        'jamm_fee' => 'setJammFee',
-        'consumption_tax' => 'setConsumptionTax',
-        'original_transaction_fee_waived' => 'setOriginalTransactionFeeWaived',
-        'error' => 'setError',
-        'processed_at' => 'setProcessedAt'
+        'transaction' => 'setTransaction',
+        'refund' => 'setRefund'
     ];
 
     /**
@@ -215,13 +190,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'id' => 'getId',
-        'amount_refunded' => 'getAmountRefunded',
-        'jamm_fee' => 'getJammFee',
-        'consumption_tax' => 'getConsumptionTax',
-        'original_transaction_fee_waived' => 'getOriginalTransactionFeeWaived',
-        'error' => 'getError',
-        'processed_at' => 'getProcessedAt'
+        'transaction' => 'getTransaction',
+        'refund' => 'getRefund'
     ];
 
     /**
@@ -281,13 +251,8 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('id', $data ?? [], null);
-        $this->setIfExists('amount_refunded', $data ?? [], null);
-        $this->setIfExists('jamm_fee', $data ?? [], null);
-        $this->setIfExists('consumption_tax', $data ?? [], null);
-        $this->setIfExists('original_transaction_fee_waived', $data ?? [], null);
-        $this->setIfExists('error', $data ?? [], null);
-        $this->setIfExists('processed_at', $data ?? [], null);
+        $this->setIfExists('transaction', $data ?? [], null);
+        $this->setIfExists('refund', $data ?? [], null);
     }
 
     /**
@@ -333,190 +298,55 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets id
+     * Gets transaction
      *
-     * @return string|null
+     * @return \OpenAPI\Client\Model\V1ChargeMessage|null
      */
-    public function getId()
+    public function getTransaction()
     {
-        return $this->container['id'];
+        return $this->container['transaction'];
     }
 
     /**
-     * Sets id
+     * Sets transaction
      *
-     * @param string|null $id External refund identifier (rfd-*).
+     * @param \OpenAPI\Client\Model\V1ChargeMessage|null $transaction transaction
      *
      * @return self
      */
-    public function setId($id)
+    public function setTransaction($transaction)
     {
-        if (is_null($id)) {
-            throw new \InvalidArgumentException('non-nullable id cannot be null');
+        if (is_null($transaction)) {
+            throw new \InvalidArgumentException('non-nullable transaction cannot be null');
         }
-        $this->container['id'] = $id;
+        $this->container['transaction'] = $transaction;
 
         return $this;
     }
 
     /**
-     * Gets amount_refunded
+     * Gets refund
      *
-     * @return int|null
+     * @return \OpenAPI\Client\Model\V1RefundInfo|null
      */
-    public function getAmountRefunded()
+    public function getRefund()
     {
-        return $this->container['amount_refunded'];
+        return $this->container['refund'];
     }
 
     /**
-     * Sets amount_refunded
+     * Sets refund
      *
-     * @param int|null $amount_refunded Amount refunded for this event.
+     * @param \OpenAPI\Client\Model\V1RefundInfo|null $refund refund
      *
      * @return self
      */
-    public function setAmountRefunded($amount_refunded)
+    public function setRefund($refund)
     {
-        if (is_null($amount_refunded)) {
-            throw new \InvalidArgumentException('non-nullable amount_refunded cannot be null');
+        if (is_null($refund)) {
+            throw new \InvalidArgumentException('non-nullable refund cannot be null');
         }
-        $this->container['amount_refunded'] = $amount_refunded;
-
-        return $this;
-    }
-
-    /**
-     * Gets jamm_fee
-     *
-     * @return int|null
-     */
-    public function getJammFee()
-    {
-        return $this->container['jamm_fee'];
-    }
-
-    /**
-     * Sets jamm_fee
-     *
-     * @param int|null $jamm_fee Jamm fee for this refund event.
-     *
-     * @return self
-     */
-    public function setJammFee($jamm_fee)
-    {
-        if (is_null($jamm_fee)) {
-            throw new \InvalidArgumentException('non-nullable jamm_fee cannot be null');
-        }
-        $this->container['jamm_fee'] = $jamm_fee;
-
-        return $this;
-    }
-
-    /**
-     * Gets consumption_tax
-     *
-     * @return int|null
-     */
-    public function getConsumptionTax()
-    {
-        return $this->container['consumption_tax'];
-    }
-
-    /**
-     * Sets consumption_tax
-     *
-     * @param int|null $consumption_tax Consumption tax (10% of the Jamm fee).
-     *
-     * @return self
-     */
-    public function setConsumptionTax($consumption_tax)
-    {
-        if (is_null($consumption_tax)) {
-            throw new \InvalidArgumentException('non-nullable consumption_tax cannot be null');
-        }
-        $this->container['consumption_tax'] = $consumption_tax;
-
-        return $this;
-    }
-
-    /**
-     * Gets original_transaction_fee_waived
-     *
-     * @return bool|null
-     */
-    public function getOriginalTransactionFeeWaived()
-    {
-        return $this->container['original_transaction_fee_waived'];
-    }
-
-    /**
-     * Sets original_transaction_fee_waived
-     *
-     * @param bool|null $original_transaction_fee_waived Whether the original transaction's Jamm fee was waived (true for same-day cancel).
-     *
-     * @return self
-     */
-    public function setOriginalTransactionFeeWaived($original_transaction_fee_waived)
-    {
-        if (is_null($original_transaction_fee_waived)) {
-            throw new \InvalidArgumentException('non-nullable original_transaction_fee_waived cannot be null');
-        }
-        $this->container['original_transaction_fee_waived'] = $original_transaction_fee_waived;
-
-        return $this;
-    }
-
-    /**
-     * Gets error
-     *
-     * @return \OpenAPI\Client\Model\Apiv1Error|null
-     */
-    public function getError()
-    {
-        return $this->container['error'];
-    }
-
-    /**
-     * Sets error
-     *
-     * @param \OpenAPI\Client\Model\Apiv1Error|null $error error
-     *
-     * @return self
-     */
-    public function setError($error)
-    {
-        if (is_null($error)) {
-            throw new \InvalidArgumentException('non-nullable error cannot be null');
-        }
-        $this->container['error'] = $error;
-
-        return $this;
-    }
-
-    /**
-     * Gets processed_at
-     *
-     * @return string|null
-     */
-    public function getProcessedAt()
-    {
-        return $this->container['processed_at'];
-    }
-
-    /**
-     * Sets processed_at
-     *
-     * @param string|null $processed_at When the refund was processed (not present on refund_failed events).
-     *
-     * @return self
-     */
-    public function setProcessedAt($processed_at)
-    {
-        if (is_null($processed_at)) {
-            throw new \InvalidArgumentException('non-nullable processed_at cannot be null');
-        }
-        $this->container['processed_at'] = $processed_at;
+        $this->container['refund'] = $refund;
 
         return $this;
     }

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-10-05
+
+### Added
+
+- Every request to the Jamm API (not OAuth token requests) sends a `Jamm-API-Version` header defaulting to the API version this SDK was built for (`Jamm\ApiVersion::VALUE`). To stay on an older version, pass `apiVersion` to `Config::init` or `new Client(...)`; a newer one needs an SDK upgrade.
+- New error type `ERROR_TYPE_PAYMENT_CHARGE_OVER_DAILY_LIMIT`: the charge would exceed the daily limit of the buyer's bank account. Retry after midnight JST.
+- Charge webhooks expose `getMetadata()`, the map you set when creating the charge, on every charge and refund event. It is `null` when the charge has none.
+
+### Changed
+
+- The SDK version header is renamed from `X-SDK-Version` to `Jamm-SDK-Version`. If a proxy or firewall allowlists outgoing headers, add `Jamm-SDK-Version`.
+- Webhook parsing accepts both `snake_case` and `camelCase` field names, so a future change to the webhook format won't break it.
+
+### Deprecated
+
+- `ERROR_TYPE_CSV_DUPLICATE_USER` is no longer returned.
+
 ## [0.7.0] - 2026-07-15
 
 ### Added
