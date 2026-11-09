@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-11-06
+
+### Added
+
+- `Jamm\Exception\ApiException` from `Payment::offSession` now has `getStatusCode()` (the HTTP status), `getErrorType()`, `getServerMessage()`, `getDetails()` and `getChargeId()`. `getCode()` and the message are unchanged. `getChargeId()` is the charge ID on an `ERROR_TYPE_PAYMENT_CHARGE_PENDING` answer (outcome not known yet; not returned by the API yet): retry only with the same idempotency key, or wait for the webhook.
+- `OffSessionInput::$idempotencyKey` (last constructor argument): an optional key that makes a sync charge retry-safe once it is enabled for your merchant (until then a request with a key is rejected). Not sent when null or blank; unlike `offSessionAsync`, no key is generated for you.
+- `ApiException::fromThrowable()`: wrap an error from the generated client (for example `PaymentApi::withdraw`) to read its status, error type and charge ID.
+
+### Fixed
+
+- `Payment::offSession`: on a timeout or another error with no response, the message and `getPrevious()` now carry the transport error instead of an internal `\Error` ("Call to undefined method ConnectException::getResponse()" or "getStatusCode() on null").
+
+### Changed
+
+- PHP 8.1 is now supported. The minimum was 8.2. PHP 8.1 no longer gets security fixes from the PHP project, so upgrade when you can.
+- `Payment::offSession` throws `ApiException` for a 2xx answer other than 200 instead of reading it as a payment response. The API doesn't send one.
+
 ## [0.8.0] - 2026-10-05
 
 ### Added

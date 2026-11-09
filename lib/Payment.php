@@ -103,12 +103,35 @@ class Payment
 
         $r->setCustomer($input->customer);
         $r->setCharge($input->charge);
-
-        try {
-            return self::api($input->merchant)->offSessionPaymentAsync($r)->wait();
-        } catch (\Throwable $e) {
-            throw new \Jamm\Exception\ApiException("Error creating off-session payment: {$e->getMessage()}", 0, $e);
+        $key = self::syncIdempotencyKey($input->idempotencyKey);
+        if ($key !== null) {
+            $r->setIdempotencyKey($key);
         }
+
+        // The sync call: the async variant's error callback reads a response a connection error doesn't have.
+        try {
+            $result = self::api($input->merchant)->offSessionPayment($r);
+        } catch (\Throwable $e) {
+            // Rebuild the async variant's exception for an error answer, so the message and previous are unchanged.
+            if ($e instanceof \OpenAPI\Client\ApiException && (int) $e->getCode() >= 300) {
+                $e = new \OpenAPI\Client\ApiException(
+                    sprintf('[%d] Error connecting to the API (%s)', $e->getCode(), Config::get()->apiBaseUrl . '/v1/payments/off-session'),
+                    (int) $e->getCode(),
+                    $e->getResponseHeaders(),
+                    $e->getResponseBody()
+                );
+            }
+            throw \Jamm\Exception\ApiException::fromThrowable('Error creating off-session payment', $e);
+        }
+
+        // The generated client deserializes any non-200 2xx response as GooglerpcStatus.
+        if (!$result instanceof V1OffSessionPaymentResponse) {
+            throw new \Jamm\Exception\ApiException(
+                'Off-session payment returned an unexpected response type: ' . get_debug_type($result)
+            );
+        }
+
+        return $result;
     }
 
     /**
@@ -168,6 +191,14 @@ class Payment
         }
 
         return $result;
+    }
+
+    /**
+     * A sync charge sends the merchant's key only; null or blank sends none (an empty key is a 400).
+     */
+    private static function syncIdempotencyKey(?string $key): ?string
+    {
+        return $key !== null && trim($key) !== '' ? $key : null;
     }
 
     /**
