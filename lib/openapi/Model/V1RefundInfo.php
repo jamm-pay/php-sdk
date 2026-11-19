@@ -60,6 +60,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'id' => 'string',
         'amount_refunded' => 'int',
+        'amount_refunded_net_discounts' => 'int',
         'jamm_fee' => 'int',
         'consumption_tax' => 'int',
         'original_transaction_fee_waived' => 'bool',
@@ -77,6 +78,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'id' => null,
         'amount_refunded' => 'int32',
+        'amount_refunded_net_discounts' => 'int32',
         'jamm_fee' => 'int32',
         'consumption_tax' => 'int32',
         'original_transaction_fee_waived' => null,
@@ -92,6 +94,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'id' => false,
         'amount_refunded' => false,
+        'amount_refunded_net_discounts' => false,
         'jamm_fee' => false,
         'consumption_tax' => false,
         'original_transaction_fee_waived' => false,
@@ -187,6 +190,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'id' => 'id',
         'amount_refunded' => 'amountRefunded',
+        'amount_refunded_net_discounts' => 'amountRefundedNetDiscounts',
         'jamm_fee' => 'jammFee',
         'consumption_tax' => 'consumptionTax',
         'original_transaction_fee_waived' => 'originalTransactionFeeWaived',
@@ -202,6 +206,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'id' => 'setId',
         'amount_refunded' => 'setAmountRefunded',
+        'amount_refunded_net_discounts' => 'setAmountRefundedNetDiscounts',
         'jamm_fee' => 'setJammFee',
         'consumption_tax' => 'setConsumptionTax',
         'original_transaction_fee_waived' => 'setOriginalTransactionFeeWaived',
@@ -217,6 +222,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'id' => 'getId',
         'amount_refunded' => 'getAmountRefunded',
+        'amount_refunded_net_discounts' => 'getAmountRefundedNetDiscounts',
         'jamm_fee' => 'getJammFee',
         'consumption_tax' => 'getConsumptionTax',
         'original_transaction_fee_waived' => 'getOriginalTransactionFeeWaived',
@@ -283,6 +289,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('amount_refunded', $data ?? [], null);
+        $this->setIfExists('amount_refunded_net_discounts', $data ?? [], null);
         $this->setIfExists('jamm_fee', $data ?? [], null);
         $this->setIfExists('consumption_tax', $data ?? [], null);
         $this->setIfExists('original_transaction_fee_waived', $data ?? [], null);
@@ -372,7 +379,7 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets amount_refunded
      *
-     * @param int|null $amount_refunded Amount refunded for this event.
+     * @param int|null $amount_refunded Amount the merchant requested to refund for this event, before discount.
      *
      * @return self
      */
@@ -382,6 +389,33 @@ class V1RefundInfo implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable amount_refunded cannot be null');
         }
         $this->container['amount_refunded'] = $amount_refunded;
+
+        return $this;
+    }
+
+    /**
+     * Gets amount_refunded_net_discounts
+     *
+     * @return int|null
+     */
+    public function getAmountRefundedNetDiscounts()
+    {
+        return $this->container['amount_refunded_net_discounts'];
+    }
+
+    /**
+     * Sets amount_refunded_net_discounts
+     *
+     * @param int|null $amount_refunded_net_discounts Amount returned to the customer for this event: amount_refunded minus the share of the charge discount it carries (not present on refund_failed events).
+     *
+     * @return self
+     */
+    public function setAmountRefundedNetDiscounts($amount_refunded_net_discounts)
+    {
+        if (is_null($amount_refunded_net_discounts)) {
+            throw new \InvalidArgumentException('non-nullable amount_refunded_net_discounts cannot be null');
+        }
+        $this->container['amount_refunded_net_discounts'] = $amount_refunded_net_discounts;
 
         return $this;
     }
